@@ -18,7 +18,6 @@ conf = {
     'enable.auto.commit': bool(os.getenv('ENABLE.AUTO.COMMIT'))
 }
 
-
 # Create the consumer
 consumer = Consumer(conf)
 
@@ -41,10 +40,14 @@ try:
                 # Error
                 print("Error: {}".format(msg.error()))
         else:
-            # Message received
-            print("Received message: topic:{}, partition:{}, offset:{}, key:{}, value:{}".format(msg.topic(), msg.partition(), msg.offset(), msg.key(), msg.value()))
+            # Message received. Only message
+            print("Received message: {}".format(msg.value().decode('utf-8')))
+
             # Acknowledge the message
             consumer.commit(message=msg)
+
 except Exception as e:
     print("Error: {}".format(e))
     consumer.close()
+
+
